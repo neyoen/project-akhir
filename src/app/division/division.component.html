@@ -1,9 +1,9 @@
 <div class="content-wrapper">
     <div class="row">
         <div class="col-12">
+            <a class="btn btn-primary mb-3" [routerLink]="['tambah']">Create a New Division</a>
             <div class="card">
                 <div class="card-header">
-
                 </div>
                 <div class="card-body">
                     <table class="table table-head-fixed text-nowrap">
@@ -19,6 +19,9 @@
                                 <td>{{currentDivision._id}}</td>
                                 <td>{{currentDivision.name}}</td>
                                 <td>{{currentDivision.description}}</td>
+                                <td>
+                                    <a class="btn btn-outline-warning btn-sm" [routerLink]="['/divisi/' + currentDivision._id + '/edit']">Edit</a>
+                                    <button class="btn btn-outline-danger btn-sm" (click)="deleteDivision(currentDivision)">Delete</button></td>
                             </tr>
                         </tbody>
                     </table>

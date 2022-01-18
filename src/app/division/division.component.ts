@@ -5,30 +5,45 @@ import { DivisionService } from '../services/division.service';
 @Component({
   selector: 'app-division',
   templateUrl: './division.component.html',
-  styleUrls: ['./division.component.css']
+  styleUrls: ['./division.component.css'],
 })
 export class DivisionComponent implements OnInit {
-
-  divisions?:Division[];
-  currentDivision:Division={};
-  name='';
-  constructor(private divisionService:DivisionService) { }
+  divisions?: Division[];
+  currentDivision: Division = {};
+  name = '';
+  constructor(private divisionService: DivisionService) {}
 
   ngOnInit(): void {
-    this.retrieveDivision()
+    this.retrieveDivision();
   }
 
-  retrieveDivision():void{
-    this.divisionService.getAll()
-      .subscribe(
-        data=>{
-          this.divisions=data;
-          console.log(data);
-        },
-        error=>{
-          console.log(error)
-        }
-      )
+  ngOnDestroy(): void {
+    this.currentDivision = {};
+  }
 
+  retrieveDivision(): void {
+    this.divisionService.getAll().subscribe(
+      (data) => {
+        this.divisions = data;
+        console.table(data);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  deleteDivision(division: Division): void {
+    if (confirm('Are you sure?') && division._id !== undefined) {
+      this.divisionService.delete(division._id).subscribe(
+        (data) => {
+          console.log(data);
+          this.retrieveDivision();
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+    }
   }
 }
